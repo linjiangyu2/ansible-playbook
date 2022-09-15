@@ -1,0 +1,7 @@
+server {
+	listen	180;
+	server_name	{{ ansible_fqdn }};
+	location / {
+		root	/nginx/vhosts1;
+	}
+	}

@@ -1,0 +1,13 @@
+- name: install nginx package
+  yum: name=nginx state=latest
+  when: ansible_os_family == "RedHat"
+- name: copy nginx conf file
+  template: src=vhosts1.conf.j2 dest=/etc/nginx/conf.d/vhosts1.conf
+  tags: conf
+  notify: restart nginx.service
+- name: mkdir directory
+  file: path={{ nginxroot }} state=directory
+- name: copy web html test
+  copy: src=index.html dest={{ nginxroot }}/
+- name: start nginx
+  service: name=nginx state=started

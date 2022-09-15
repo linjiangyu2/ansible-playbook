@@ -1,0 +1,2 @@
+#- { nginxroot: "/nginx/vhosts1" }
+nginxroot: '/nginx/vhosts1'
