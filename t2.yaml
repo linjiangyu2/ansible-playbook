@@ -1,0 +1,12 @@
+- hosts: demo
+  remote_user: root
+  tasks:
+  - name: t12
+    file: path=/opt/{tag1,tag2} state=touch
+    tags:
+    - t1
+    - t2
+  - name: t1
+    file: path=/opt/tag-t1 state=touch
+    tags:
+    - t1

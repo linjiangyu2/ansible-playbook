@@ -1,0 +1,9 @@
+- hosts: demo
+  remote_user: root
+  tasks:
+  - name: install lnmp packages
+    yum: name={{ item }} state=latest
+    with_items:
+    - nginx
+    - mysql
+    - php-fpm

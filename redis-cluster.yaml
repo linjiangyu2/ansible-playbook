@@ -1,0 +1,44 @@
+- hosts: master
+  remote_user: root
+  tasks:
+  - name: wget repository
+    shell:  wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.cloud.tencent.com/repo/centos7_base.repo
+
+  - name: install epel-release
+    yum: name=epel-release.noarch state=present
+
+  - name: install redis
+    yum: name=redis state=latest
+
+  - name: conf setting
+    copy: src=/opt/redis/redis.master.conf dest=/etc/redis.conf
+    notify: restart redis
+
+  - name: service manager
+    service: name=redis state=restarted enabled=yes
+
+  handlers:
+  - name: restart redis
+    service: name=redis state=restarted
+- hosts: node
+  remote_user: root
+  tasks:
+#  - name: copy yum repositroy
+#    copy: src=/etc/yum.repos.d/ dest=/etc/yum.repos.d/ force=no
+  - name: wget repository
+    shell: wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.cloud.tencent.com/repo/centos7_base.repo
+  - name: install epel-release
+    yum: name=epel-release.noarch state=present
+
+  - name: install  redis
+    yum: name=redis state=latest
+  - name: service manager
+    service: name=redis state=restarted enabled=yes
+  - name: conf setting
+    copy: src=/opt/redis/redis.slave.conf dest=/etc/redis.conf force=yes
+    notify: restart redis  # 当前的task执行便会通知到名字为restart redis的触发器
+
+  handlers:
+  - name: restart redis
+    service: name=redis state=restarted
+

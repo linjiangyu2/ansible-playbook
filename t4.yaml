@@ -1,0 +1,5 @@
+- hosts: master
+  remote_user: root
+  tasks:
+  - name: install package {{ package }}
+    yum: name={{ package }} state=latest

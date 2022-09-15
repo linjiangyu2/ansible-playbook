@@ -1,0 +1,11 @@
+- hosts: web
+  remote_user: root
+  tasks:
+  - name: install httpd
+    yum: name=httpd state=latest
+  - name: setting conf file
+    template: src=/opt/mylisten.conf dest=/etc/httpd/conf.d/mylisten.conf
+    notify: restart httpd
+  handlers:
+  - name: restart httpd
+    service: name=httpd state=restarted

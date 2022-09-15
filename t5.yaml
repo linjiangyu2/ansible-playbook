@@ -1,0 +1,7 @@
+- hosts: demo
+  remote_user: root
+  tasks:
+  - name: install package {{ t1 }}
+    yum: name={{ t1 }} state=latest
+  vars:
+  - t1: vsftpd

@@ -1,0 +1,9 @@
+- hosts: demo
+  remote_user: root
+  tasks:
+  - name: t1 test
+    file: path=/opt/t1-tags state=directory
+    tags: t1
+  - name: t2 test
+    file: path=/opt/t1-skip-tags state=directory
+  

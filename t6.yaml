@@ -1,0 +1,5 @@
+- hosts: demo
+  remote_user: root
+  tasks:
+  - name: vars hosts test {{ http_port }}
+    copy: content={{ http_port }} dest=/opt/{{ ansible_ssh_host }}.{{ http_port }}

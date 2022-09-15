@@ -1,0 +1,6 @@
+- hosts: master
+  remote_user: root
+  tasks:
+  - name: ansible_env
+    copy: content={{ ansible_env }} dest=/opt/env
+

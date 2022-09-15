@@ -1,0 +1,5 @@
+- hosts: master
+  remote_user: root
+  tasks:
+  - name: redis.conf setting from facter
+    template: src=/opt/redis.conf dest=/etc/redis.conf

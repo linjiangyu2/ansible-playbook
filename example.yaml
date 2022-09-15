@@ -1,0 +1,22 @@
+---
+- hosts: demo
+  remote_user: root
+  tasks:
+  - name: apache lastest version
+    yum: name=httpd,httpd-devel state=latest
+
+  - name: write the apache conf file
+    copy: src=/etc/httpd/conf/httpd.conf dest=/etc/httpd/conf/httpd.conf
+
+  - name: write the web html
+    copy: src=/root/blog/ dest=/var/www/html/
+
+    notify:
+    - restart apache
+
+  - name: apache is running
+    service: name=httpd state=started enabled=yes
+
+  handlers:
+    - name: restart apache
+      service: name=httpd state=restarted
