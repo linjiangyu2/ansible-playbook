@@ -1,0 +1,29 @@
+- hosts: master
+  remote_user: root
+  tasks:
+  - name: install nfs packages
+    yum: name={{ item }} state=latest
+    with_items:
+    - nfs-utils
+    - rpcbind
+    when: ansible_os_family == "RedHat"
+  - name: mkdir /nfs
+    file: path=/nfs state=directory
+  - name: nfs conf setting
+    copy: content="/nfs *(rw,sync,no_root_squash)" dest=/etc/exports
+    notify: restart nfs.service
+  handlers:
+  - name restart nfs.service
+    service: name={{ item }} state=restarted
+    with_items:
+    - nfs
+    - rpcbind
+- hosts: node
+  remote_user: root
+  tasks:
+  - name: install nfs client package
+     yum: name=nfs-utils state=latest
+  - name: mkdir mount directory
+    file: path=/nfs state=directory
+  - name: client nfs-server
+    command: "mount.nfs master:/nfs /nfs"
