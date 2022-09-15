@@ -13,7 +13,7 @@
     copy: content="/nfs *(rw,sync,no_root_squash)" dest=/etc/exports
     notify: restart nfs.service
   handlers:
-  - name restart nfs.service
+  - name: restart nfs.service
     service: name={{ item }} state=restarted
     with_items:
     - nfs
@@ -22,7 +22,7 @@
   remote_user: root
   tasks:
   - name: install nfs client package
-     yum: name=nfs-utils state=latest
+    yum: name=nfs-utils state=latest
   - name: mkdir mount directory
     file: path=/nfs state=directory
   - name: client nfs-server
